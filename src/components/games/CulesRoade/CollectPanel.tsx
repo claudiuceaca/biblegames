@@ -21,6 +21,10 @@ function CollectPanel() {
         <Image source={require('@/assets/images/roade/Para.png')} style={styles.collectIcon} />
         <Text style={styles.collectText}>+2</Text>
       </View>
+            <View style={styles.collectRow}>
+        <Image source={require('@/assets/images/roade/Ananas.png')} style={styles.collectIcon} />
+        <Text style={styles.collectText}>+2</Text>
+      </View>
     </View>
   );
 }

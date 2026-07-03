@@ -123,6 +123,7 @@ export default function Game({ onBack }: GameProps) {
       <GameArea
         fruits={state.fruits}
         basketX={state.basketX}
+        basketContents={state.basketContents}
         onLayout={handleLayout}
       />
 
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   hitOverlay: {
-    ...StyleSheet.absoluteFill,
+    ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(255, 0, 0, 0.12)',
     zIndex: 100,
   },

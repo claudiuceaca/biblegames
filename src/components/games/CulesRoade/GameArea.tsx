@@ -1,6 +1,6 @@
 import { Image, StyleSheet, View } from 'react-native';
 import BasketAnimated from './BasketAnimated';
-import { basketBottomOffset, basketHeight, basketWidth } from './gameReducer';
+import { basketBottomOffset, basketHeight, basketWidth, FruitType } from './gameReducer';
 
 const basketImage = require('@/assets/images/roade/Cos.png');
 
@@ -14,6 +14,7 @@ type Fruit = {
 type Props = {
   fruits: Fruit[];
   basketX: number;
+  basketContents: FruitType[];
   onLayout: (event: any) => void;
 };
 
@@ -23,9 +24,15 @@ const fruitImages: Record<string, any> = {
   wheat: require('@/assets/images/roade/Grau.png'),
   para: require('@/assets/images/roade/Para.png'),
   thorn: require('@/assets/images/roade/Spin.png'),
+  ananas: require('@/assets/images/roade/Ananas.png'),
 };
 
-export default function GameArea({ fruits, basketX, onLayout }: Props) {
+export default function GameArea({
+  fruits,
+  basketX,
+  basketContents,
+  onLayout,
+}: Props) {
   return (
     <View style={styles.gameArea} onLayout={onLayout}>
       {fruits.map((fruit) => (
@@ -36,7 +43,9 @@ export default function GameArea({ fruits, basketX, onLayout }: Props) {
         />
       ))}
       <View style={[styles.basket, { left: basketX }]}> 
-          <BasketAnimated />
+          <BasketAnimated
+            basketContents={basketContents}
+          />
       </View>
     </View>
   );

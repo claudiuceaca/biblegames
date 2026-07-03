@@ -5,7 +5,7 @@ const screenPadding = 10;
 const fruitSize = 56;
 const leftSidebarWidth = 12 + 140 + 8;
 
-export type FruitType = 'apple' | 'grape' | 'wheat' | 'thorn' | 'para';
+export type FruitType = 'apple' | 'grape' | 'wheat' | 'thorn' | 'para' | 'ananas';
 export type Phase = 'IDLE' | 'PLAYING' | 'PAUSED' | 'GAME_OVER';
 export type Difficulty = 'easy' | 'medium' | 'hard';
 
@@ -40,6 +40,7 @@ export type GameState = {
   stats: SessionStats;
   isBasketHit: boolean;
   basketHitTime: number;
+  basketContents: FruitType[];
 };
 
 export const roundDurationMs = 30_000;
@@ -74,6 +75,7 @@ export const initialGameState: GameState = {
   stats: INITIAL_STATS,
   isBasketHit: false,
   basketHitTime: 0,
+  basketContents: [],
 };
 
 export type GameAction =
@@ -98,11 +100,13 @@ export const createFruit = (difficulty: Difficulty, timeElapsedMs = 0): Fruit =>
 
   const r = Math.random();
 
-  const type: FruitType =
-    r < 0.20 ? 'thorn' :  // 20% șansă (0.00 - 0.19)
-    r < 0.40 ? 'apple' :  // 20% șansă (0.20 - 0.39)
-    r < 0.60 ? 'grape' :  // 20% șansă (0.40 - 0.59)
-    r < 0.80 ? 'wheat' : 'para';  // 20% șansă (0.60 - 0.79) și restul până la 1.0 (20%)
+ const type: FruitType =
+    r < 0.1666 ? 'thorn' :   // 0.0000 - 0.1666 (16.66%)
+    r < 0.3333 ? 'apple' :   // 0.1666 - 0.3333 (16.66%)
+    r < 0.5000 ? 'grape' :   // 0.3333 - 0.5000 (16.66%)
+    r < 0.6666 ? 'wheat' :   // 0.5000 - 0.6666 (16.66%)
+    r < 0.8333 ? 'para' : 'ananas'; // 0.6666 - 0.8333 pentru 'para' (16.66%), restul până la 1.0 pentru 'ananas' (16.66%)
+
 
   return {
     id: String(Math.random()).slice(2),
@@ -171,6 +175,7 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
       let stats = { ...state.stats };
       let isBasketHit = false;
       let basketHitTime = 0;
+      let basketContents = [...state.basketContents];
 
       let fruits = state.fruits.map((fruit) => ({
         ...fruit,
@@ -196,17 +201,26 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
             stats = { ...stats, thornsHit: stats.thornsHit + 1 };
             isBasketHit = true;
             basketHitTime = 300;
-          } else {
-            const base = fruit.type === 'apple' ? 1 : fruit.type === 'grape' ? 2 : 3;
-            streak++;
-            score += base * getMultiplier(streak);
-            hapticGood++;
-            stats = {
-              ...stats,
-              fruitsCaught: stats.fruitsCaught + 1,
-              maxStreak: Math.max(stats.maxStreak, streak),
-            };
-          }
+       } else {
+          const base =
+            fruit.type === 'apple'
+              ? 1
+              : fruit.type === 'grape'
+              ? 2
+              : 3;
+
+          streak++;
+          score += base * getMultiplier(streak);
+          hapticGood++;
+
+          basketContents.push(fruit.type);
+
+          stats = {
+            ...stats,
+            fruitsCaught: stats.fruitsCaught + 1,
+            maxStreak: Math.max(stats.maxStreak, streak),
+          };
+        }
           return false;
         }
 
@@ -229,6 +243,7 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
         hapticGoodCount: hapticGood,
         hapticBadCount: hapticBad,
         stats,
+        basketContents,
         isBasketHit: newIsBasketHit,
         basketHitTime: isBasketHit ? 300 : newBasketHitTime,
       };

@@ -29,8 +29,7 @@ export default function HomeScreen() {
               description="În curând..."
               icon={require('@/assets/images/roade/OaieCard.png')}
               color="#1565c0"
-              disabled={true}
-              onPress={() => {}}
+              onPress={() => router.push('/gaseste-oaia')}
             />
             <GameCard
               title="Arca lui Noe"
