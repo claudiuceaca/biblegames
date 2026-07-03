@@ -1,98 +1,135 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
+import GameCard from '@/components/GameCard';
+import { useRouter } from 'expo-router';
+import { ImageBackground, StatusBar, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
-
 export default function HomeScreen() {
+  const router = useRouter();
+
   return (
-    <ThemedView style={styles.container}>
+    <ImageBackground
+      source={require('@/assets/images/roade/BackgroundHome.png')}
+      style={styles.background}
+      resizeMode="cover"
+    >
+      <StatusBar translucent backgroundColor="transparent" />
       <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+        <View style={styles.container}>
+         
+          <View style={styles.gamesGrid}>
+            <GameCard
+              title="Cules de Roade"
+              description="Prinde fructele și evită spini"
+              icon={require('@/assets/images/roade/MarCard.png')}
+              color="#3d8c40"
+              onPress={() => router.push('/cules-roade')}
+            />
+            <GameCard
+              title="Găsește Oaia Pierdută"
+              description="În curând..."
+              icon={require('@/assets/images/roade/OaieCard.png')}
+              color="#1565c0"
+              disabled={true}
+              onPress={() => {}}
+            />
+            <GameCard
+              title="Arca lui Noe"
+              description="În curând..."
+              icon={require('@/assets/images/roade/NoaCard.png')}
+              color="#c62828"
+              disabled={true}
+              onPress={() => {}}
+            />
+            <GameCard
+              title="Urmărește Steaua"
+              description="În curând..."
+              icon={require('@/assets/images/roade/StarCard.png')}
+              color="#e65c00"
+              disabled={true}
+              onPress={() => {}}
+            />
+            <GameCard
+              title="Prinde Peștele"
+              description="În curând..."
+              icon={require('@/assets/images/roade/FishCard.png')}
+              color="#00695c"
+              disabled={true}
+              onPress={() => {}}
+            />
+            <GameCard
+              title="Hrănește Mulțimea"
+              description="În curând..."
+              icon={require('@/assets/images/roade/HranesteCard.png')}
+              color="#6a1b9a"
+              disabled={true}
+              onPress={() => {}}
+            />
+            <GameCard
+              title="Porumbei"
+              description="În curând..."
+              icon={require('@/assets/images/roade/PorumbeiCard.png')}
+              color="#ad1457"
+              disabled={true}
+              onPress={() => {}}
+            />
+            <GameCard
+              title="Goliat"
+              description="În curând..."
+              icon={require('@/assets/images/roade/GoliatCard.png')}
+              color="#4527a0"
+              disabled={true}
+              onPress={() => {}}
+            />
+            <GameCard
+              title="Memorie"
+              description="În curând..."
+              icon={require('@/assets/images/roade/MemoriCard.png')}
+              color="#00838f"
+              disabled={true}
+              onPress={() => {}}
+            />
+             {/* <GameCard
+              title="Moise și Marea Roșie"
+              description="În curând..."
+              icon={require('@/assets/images/roade/SplitCard.png')}
+              color="#00838f"
+              disabled={true}
+              onPress={() => {}}
+            /> */}
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
-
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
-
-        {Platform.OS === 'web' && <WebBadge />}
+          </View>
+        </View>
       </SafeAreaView>
-    </ThemedView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  background: {
     flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
   },
   safeArea: {
     flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
   },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
+  container: {
     flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
+    padding: 20,
+    paddingTop: 380,
   },
   title: {
-    textAlign: 'center',
+    fontSize: 28,
+    fontWeight: '900',
+    color: '#fff',
+    marginBottom: 6,
   },
-  code: {
-    textTransform: 'uppercase',
+  subtitle: {
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.8)',
+    marginBottom: 20,
   },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+  gamesGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
 });
