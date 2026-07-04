@@ -107,7 +107,7 @@ const handleBackgroundPress = (event: any) => {
         <StartOverlayOaie show onHide={() => setOverlay(null)} />
       )}
       {overlay === "pause" && (
-        <PauseOverlay onResume={() => setOverlay(null)} />
+        <PauseOverlay onResume={() => setOverlay(null)} onLevels={() => setOverlay("levels")} />
       )}
       {overlay === "win" && (
         <WinOverlay onNext={nextLevel} />

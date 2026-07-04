@@ -1,4 +1,4 @@
-import { Image, Pressable, StyleSheet } from "react-native";
+import { Image, Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
 
 type Props = {
   currentLevel: number;
@@ -14,26 +14,34 @@ export default function LevelSelectOverlay({
   onSelect,
 }: Props) {
   return (
-    // Folosim Pressable pentru tot fundalul negru semi-transparent
-    <Pressable style={styles.container} onPress={onClose}>
+    // Containerul principal ocupă tot ecranul, dar NU este Pressable
+    <View style={styles.container}>
       
       {/* 
-        FOARTE IMPORTANT: 
-        Folosim un Pressable secundar în jurul imaginii cu `onPress={(e) => e.stopPropagation()}`.
-        Acesta oprește evenimentul de click să treacă prin imagine. 
-        Astfel, dacă apeși PE POPUP, meniul NU se va închide accidental.
+        1. Fundalul transparent devine un Pressable ABSOLUT. 
+        Ocupă tot ecranul în spate și prinde doar click-ul din exterior.
       */}
-      <Pressable style={styles.bannerContainer} onPress={(e) => e.stopPropagation()}>
-        <Image
+      <View style={styles.fundalInchidere} />
+
+      {/* 
+        2. Meniul cu imaginea este acum un Pressable SEPARAT.
+        Nu se mai află în interiorul fundalului de închidere, deci nu mai este afectat de el.
+      */}
+      <Pressable style={styles.bannerContainer}>
+        <View style={styles.bannerContent}>
+
+           <Image
           source={require("@/assets/images/oaie/LevelAlegeOaie.png")}
           style={styles.image}
           resizeMode="contain"
         />
-        
-        {/* AICI poți randa ulterior butoanele tale pentru nivele (ex: Nivel 1, Nivel 2) peste imagine */}
+        <TouchableOpacity style={styles.levelButton} onPress={onClose}>
+          
+        </TouchableOpacity>
+        </View>
       </Pressable>
       
-    </Pressable>
+    </View>
   );
 }
 
@@ -44,16 +52,40 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.6)", // Fundal întunecat transparent
-    zIndex: 150, // Ne asigurăm că stă deasupra jocului și a HUD-ului
+    zIndex: 150,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  fundalInchidere: {
+    position: "absolute", // Se întinde pe tot ecranul în spatele imaginii
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.6)", // Culoarea neagră transparentă a overlay-ului
   },
   bannerContainer: {
-    flex: 1,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    // Nu are stil de poziție absolută, deci stă deasupra fundalului datorită ordinii de randare
+  },
+  bannerContent: {
+    position: "relative",
+    width: "100%",
+    height: 285,
     alignItems: "center",
     justifyContent: "center",
   },
   image: {
-    width: "85%", // Ocupă 85% din lățime ca să arate bine pe mijloc
-    height: "80%",
+    width: "90%", 
+    height: "100%",
+  },
+  levelButton: {
+    position: "absolute",
+    top: 50,
+    right: 25,
+    width: 45,
+    height: 45,
   },
 });

@@ -26,11 +26,11 @@ export const levels: Level[] = [
 
   {
     id: 2,
-    image: require("@/assets/images/oaie/Oaie1.png"),
+    image: require("@/assets/images/oaie/Oaie2.png"),
 
     sheep: {
-      x: 120,
-      y: 430,
+      x: 386,
+      y: 517,
       width: 45,
       height: 45,
     },
@@ -38,11 +38,24 @@ export const levels: Level[] = [
 
   {
     id: 3,
-    image: require("@/assets/images/oaie/Oaie1.png"),
+    image: require("@/assets/images/oaie/Oaie3.png"),
 
     sheep: {
-      x: 285,
-      y: 610,
+      x: 389,
+      y: 366,
+      width: 45,
+      height: 45,
+    },
+  },
+
+  
+  {
+    id: 4,
+    image: require("@/assets/images/oaie/Oaie4.png"),
+
+    sheep: {
+      x: 386,
+      y: 517,
       width: 45,
       height: 45,
     },

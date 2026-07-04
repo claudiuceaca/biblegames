@@ -53,17 +53,17 @@ const styles = StyleSheet.create({
 
   pauseButton: {
     position: "absolute",
-    right: 35,
-    top: 20,
-    width: 55,
-    height: 55,
+    left: 15,
+    top: 10,
+    width: 50,
+    height: 50,
   },
 
   levelButton: {
     position: "absolute",
-    left: 30,
-    top: 20,
-    width: 140,
-    height: 55,
+    left: 75,
+    top: 13,
+    width: 100,
+    height: 50,
   },
 });
