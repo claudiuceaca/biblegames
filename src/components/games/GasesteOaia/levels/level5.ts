@@ -1,7 +1,7 @@
 export default {
     id: 1,
 
-    image: require('@/assets/images/oaie/Oaie1.png'),
+    image: require('@/assets/images/oaie/Oaie5.png'),
 
     sheep: {
         x: 238,

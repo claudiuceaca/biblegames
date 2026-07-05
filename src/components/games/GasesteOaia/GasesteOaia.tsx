@@ -1,7 +1,8 @@
 import { ImageBackground } from "expo-image";
 import { useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Image, Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
 
+import { router } from "expo-router";
 import GameHUD from "./GameHud";
 import { levels } from "./levels";
 import LevelSelectOverlay from "./LevelSelectOverlay";
@@ -68,10 +69,16 @@ const handleBackgroundPress = (event: any) => {
   }
 };
 
-
+const handleBackButton = () => {
+    router.back(); 
+  };
 
   return (
     <View style={styles.container}>
+
+    <TouchableOpacity onPress={handleBackButton} style={styles.backButton}>
+      <Image source={require("@/assets/images/oaie/BackOaie.png")} style={styles.back} />
+    </TouchableOpacity>
       
       <Pressable style={styles.pressableArea} onPress={handleBackgroundPress}>
         <ImageBackground
@@ -147,5 +154,17 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     borderColor: '#f1c40f',
     backgroundColor: 'rgba(241, 196, 15, 0.2)',
+  },
+  backButton:{
+    position: 'absolute',
+    top: 100,
+    left: 30,
+    width: 50,
+    height: 50,
+    zIndex: 1000,
+  },
+  back: {
+    width: 50,
+    height: 50,
   },
 });

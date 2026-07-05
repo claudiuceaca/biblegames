@@ -60,4 +60,16 @@ export const levels: Level[] = [
       height: 45,
     },
   },
+
+  {
+    id: 5,
+    image: require("@/assets/images/oaie/Oaie5.png"),
+
+    sheep: {
+      x: 386,
+      y: 517,
+      width: 45,
+      height: 45,
+    },
+  },
 ];

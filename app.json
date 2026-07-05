@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "CulegeRoade",
-    "slug": "CulegeRoade",
+    "name": "BibleGames",
+    "slug": "BibleGames",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "culegeroade",
+    "scheme": "biblegames",
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/expo.icon"
@@ -17,7 +17,9 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.biblegames",
+      "versionCode": 1
     },
     "web": {
       "output": "static",
@@ -39,6 +41,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "c671210c-8a5c-4f21-918e-ce94653e30b8"
+      }
     }
   }
 }
