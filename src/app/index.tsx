@@ -8,7 +8,7 @@ export default function HomeScreen() {
 
   return (
     <ImageBackground
-      source={require('@/assets/images/roade/BackgroundHome.png')}
+      source={require('@/assets/images/roade/BackgroundHome1.png')}
       style={styles.background}
       resizeMode="cover"
     >
@@ -30,6 +30,13 @@ export default function HomeScreen() {
               icon={require('@/assets/images/roade/OaieCard.png')}
               color="#1565c0"
               onPress={() => router.push('/gaseste-oaia')}
+            />
+            <GameCard
+              title="Porumbeii Pacii"
+              description="În curând..."
+              icon={require('@/assets/images/roade/PorumbeiCard.png')}
+              color="#ad1457"
+              onPress={() => router.push('/porumbeii')}
             />
             <GameCard
               title="Arca lui Noe"
@@ -55,38 +62,30 @@ export default function HomeScreen() {
               disabled={true}
               onPress={() => {}}
             />
-            <GameCard
+            {/* <GameCard
               title="Hrănește Mulțimea"
               description="În curând..."
               icon={require('@/assets/images/roade/HranesteCard.png')}
               color="#6a1b9a"
               disabled={true}
               onPress={() => {}}
-            />
-            <GameCard
-              title="Porumbei"
-              description="În curând..."
-              icon={require('@/assets/images/roade/PorumbeiCard.png')}
-              color="#ad1457"
-              disabled={true}
-              onPress={() => {}}
-            />
-            <GameCard
+            /> */}
+            {/* <GameCard
               title="Goliat"
               description="În curând..."
               icon={require('@/assets/images/roade/GoliatCard.png')}
               color="#4527a0"
               disabled={true}
               onPress={() => {}}
-            />
-            <GameCard
+            /> */}
+            {/* <GameCard
               title="Memorie"
               description="În curând..."
               icon={require('@/assets/images/roade/MemoriCard.png')}
               color="#00838f"
               disabled={true}
               onPress={() => {}}
-            />
+            /> */}
              {/* <GameCard
               title="Moise și Marea Roșie"
               description="În curând..."
@@ -113,7 +112,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    paddingTop: 380,
+    justifyContent:'flex-end',
+    paddingBottom: 100
   },
   title: {
     fontSize: 28,
