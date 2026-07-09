@@ -1,5 +1,5 @@
-import { useEffect } from 'react'; // ADĂUGAT: useEffect pentru console.log
-import { Image, StyleSheet, View } from 'react-native';
+import { useEffect } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Difficulty, SessionStats } from '../_reducers/gameReducer';
 
 type Props = {
@@ -10,11 +10,11 @@ type Props = {
   stats: SessionStats;
   onStart: (difficulty: Difficulty) => void;
   isVictory: boolean;
+  onContinue: () => void; // 💡 ADĂUGAT: Funcție pentru a continua sau reîncerca
 };
 
-export default function GameOverOverlay({ visible, score, highScore, isNewRecord, stats, onStart, isVictory }: Props) {
+export default function GameOverOverlay({ visible, score, highScore, isNewRecord, stats, onStart, isVictory, onContinue }: Props) {
   
-  // Printează automat toate datele în consolă când apare ecranul de final
   useEffect(() => {
     if (visible) {
       console.log("--- STATISTICI RUNDĂ TERMINATĂ ---");
@@ -31,15 +31,22 @@ export default function GameOverOverlay({ visible, score, highScore, isNewRecord
 
   if (!visible) return null;
 
-  // Selectează imaginea potrivită
   const bannerImage = isVictory 
     ? require('../assets/FinishGame.png') 
     : require('../assets/GameOver.png');
 
   return (
     <View style={styles.overlay}>
-      {/* Containerul afișează acum strict doar imaginea ta de final */}
-      <Image source={bannerImage} style={styles.fullScreenBanner} />
+      <View style={styles.container}>
+        {/* Imaginea ta de la AI */}
+        <Image source={bannerImage} style={styles.fullScreenBanner} />
+
+        {/* 💡 BUTONUL DINAMIC DE CONTINUARE / REÎNCERCARE */}
+        <TouchableOpacity style={styles.actionButton} onPress={onContinue}>
+          <Text style={styles.actionButtonText}>
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -49,14 +56,31 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.65)', // Fundal întunecat pentru a scoate imaginea în evidență
+    backgroundColor: 'rgba(0,0,0,0.75)', 
     zIndex: 200,
     elevation: 2,
   },
-  // Stilizat pentru ca imaginea generată să se vadă mare și clară pe mijlocul ecranului
+  container: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   fullScreenBanner: {
-    width: '85%',
-    height: '60%',
+    width: '100%',
+    height: 450, // Înălțime fixă pentru a lăsa loc butonului dedesubt
     resizeMode: 'contain',
+    position:'relative',
+  },
+  actionButton: {
+    paddingHorizontal: 40,
+    position:'absolute',
+    bottom: 145
+  },
+  actionButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '900',
+    letterSpacing: 1,
+    textAlign: 'center',
   },
 });

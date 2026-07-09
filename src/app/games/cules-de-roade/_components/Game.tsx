@@ -28,7 +28,6 @@ export default function Game({ config }: GameProps) {
   const prevHapticGoodRef = useRef(0);
   const prevHapticBadRef = useRef(0);
 
-  // LOGICA SIMPLĂ DE VICTORIE: Să ai vieți și să fi prins măcar un fruct
   const isVictory = state.lives > 0 && state.score > 0;
 
   useEffect(() => {
@@ -68,7 +67,6 @@ export default function Game({ config }: GameProps) {
         setHighScore(state.score);
       }
 
-      // Dacă este victorie (timpul a expirat și mai are vieți), deblocăm nivelul următor
       if (isVictory) {
         const unlockNextLevel = async () => {
           try {
@@ -118,6 +116,19 @@ export default function Game({ config }: GameProps) {
   const handleReset = () => {
     dispatch({ type: "RESET" });
     router.back();
+  };
+
+  // 💡 ADĂUGAT: Gestionează ce se întâmplă când apeși pe butonul din overlay
+  const handleContinue = () => {
+    if (isVictory) {
+      // Dacă e victorie, îl trimitem înapoi pe hartă.
+      // Harta va citi din AsyncStorage noul nivel maxim și va arăta Nivelul 2 deblocat!
+      dispatch({ type: "RESET" });
+      router.back();
+    } else {
+      // Dacă e înfrângere, repornim meciul imediat pe aceeași dificultate
+      dispatch({ type: "START", difficulty: state.difficulty });
+    }
   };
 
   const handleMoveBasket = (direction: "left" | "right") => {
@@ -175,9 +186,11 @@ export default function Game({ config }: GameProps) {
       <PauseOverlay
         visible={state.phase === "PAUSED"}
         onResume={handleResume}
+        score={state.score}    // 💡 Transmite scorul curent din state
+        lives={state.lives}    // 💡 Transmite viețile curente din state
+        config={config}        // 💡 Transmite obiectul de configurare al nivelului
       />
 
-      {/* Transmitem starea isVictory calculată corect */}
       <GameOverOverlay
         visible={state.phase === "GAME_OVER"}
         score={state.score}
@@ -186,6 +199,7 @@ export default function Game({ config }: GameProps) {
         stats={state.stats}
         onStart={handleStart}
         isVictory={isVictory} 
+        onContinue={handleContinue} // 💡 Legăm noul prop către funcția noastră
       />
 
       {state.phase === "PLAYING" && (

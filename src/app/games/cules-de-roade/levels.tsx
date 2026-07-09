@@ -1,12 +1,14 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { router } from "expo-router";
-import { useEffect, useState } from "react";
+import { router, useFocusEffect } from "expo-router"; // 💡 ADĂUGAT: useFocusEffect
+import { useCallback, useState } from "react"; // 💡 ADĂUGAT: useCallback
 import {
   DimensionValue,
   Image,
   ImageBackground,
   Pressable,
   StyleSheet,
+  Text,
+  TouchableOpacity,
   View
 } from "react-native";
 
@@ -16,23 +18,46 @@ export default function LevelMapScreen() {
   const [unlockedLevel, setUnlockedLevel] = useState<number>(1);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
-  // Încarcă dinamic progresul din stocarea locală a telefonului
-  useEffect(() => {
-    const loadProgress = async () => {
-      try {
-        const savedLevel = await AsyncStorage.getItem("maxUnlockedLevel");
-        if (savedLevel !== null) {
-          setUnlockedLevel(parseInt(savedLevel, 10));
-        } else {
-          await AsyncStorage.setItem("maxUnlockedLevel", "1");
+  // 💡 MODIFICAT: Înlocuim vechiul useEffect cu useFocusEffect + useCallback
+  // Acest bloc de cod va rula AUTOMAT de fiecare dată când te întorci de la joc pe hartă
+  useFocusEffect(
+    useCallback(() => {
+      const loadProgress = async () => {
+        try {
+          const savedLevel = await AsyncStorage.getItem("maxUnlockedLevel");
+          console.log("🔄 Harta s-a reîmprospătat! Valoare citită:", savedLevel);
+          
+          if (savedLevel !== null) {
+            const parsed = parseInt(savedLevel, 10);
+            
+            if (parsed > 12 || isNaN(parsed)) {
+              await AsyncStorage.setItem("maxUnlockedLevel", "1");
+              setUnlockedLevel(1);
+            } else {
+              setUnlockedLevel(parsed);
+            }
+          } else {
+            await AsyncStorage.setItem("maxUnlockedLevel", "1");
+            setUnlockedLevel(1);
+          }
+        } catch (error) {
+          console.log("Eroare la încărcarea progresului local:", error);
         }
-      } catch (error) {
-        console.log("Eroare la încărcarea progresului local:", error);
-      }
-    };
+      };
 
-    loadProgress();
-  }, []);
+      loadProgress();
+    }, [])
+  );
+
+  const handleResetProgress = async () => {
+    try {
+      await AsyncStorage.setItem("maxUnlockedLevel", "1");
+      setUnlockedLevel(1);
+      console.log("Progresul a fost resetat! Doar nivelul 1 este deblocat.");
+    } catch (error) {
+      console.log("Eroare la resetare:", error);
+    }
+  };
 
   const handleBack = () => {
     router.back();
@@ -41,7 +66,6 @@ export default function LevelMapScreen() {
   const handleLevelPress = (levelId: number) => {
     if (levelId > unlockedLevel) return;
 
-    // Trimite către joc tot obiectul de configurare al acelui nivel selectat
     router.push({
       pathname: "/games/cules-de-roade/play",
       params: { level: levelId },
@@ -78,6 +102,11 @@ export default function LevelMapScreen() {
           {/* Back */}
           <Pressable style={styles.backButton} onPress={handleBack} />
 
+          {/* BUTONUL DE RESET pentru teste */}
+          <TouchableOpacity style={styles.resetButton} onPress={handleResetProgress}>
+            <Text style={styles.resetText}>RESET</Text>
+          </TouchableOpacity>
+
           {/* Randează automat toate cele 12 nivele */}
           {LEVELS.map((level) => {
             const isUnlocked = level.id <= unlockedLevel;
@@ -96,13 +125,11 @@ export default function LevelMapScreen() {
                 ]}
               >
                 {isUnlocked ? (
-                  // Citește automat calea de deblocare specifică din obiectul level
                   <Image 
                     source={level.iconUnlocked} 
                     style={styles.baseImage} 
                   />
                 ) : (
-                  // Citește automat calea de lăcat specifică din obiectul level
                   <Image 
                     source={level.iconLocked} 
                     style={styles.baseImage} 
@@ -118,7 +145,9 @@ export default function LevelMapScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { 
+    flex: 1 
+  },
   backButton: {
     position: "absolute",
     top: 25,
@@ -128,6 +157,21 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     zIndex: 100,
   },
+  resetButton: {
+    position: "absolute",
+    top: 25,
+    right: 15,
+    backgroundColor: "rgba(255, 0, 0, 0.8)",
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 8,
+    zIndex: 101,
+  },
+  resetText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 12,
+  },
   levelButton: {
     position: "absolute",
     width: 100,   
@@ -135,7 +179,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  // Ajustat stilul imaginii compacte pentru a folosi înălțimi proporționale corecte (pătrat 80x80 sau cerc)
   baseImage: {
     position: "absolute",
     width: 80,         
