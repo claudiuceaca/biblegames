@@ -1,10 +1,10 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import AvoidPanel from './AvoidPanel';
-import CollectPanel from './CollectPanel';
-import ComboDisplay from './ComboDisplay';
-import LivesPanel from './LivesPanel';
-import ScorePanel from './ScorePanel';
-import TimerPanel from './TimerPanel';
+import { Image, Pressable, StyleSheet, View } from "react-native";
+import AvoidPanel from "./AvoidPanel";
+import CollectPanel from "./CollectPanel";
+import ComboDisplay from "./ComboDisplay";
+import LivesPanel from "./LivesPanel";
+import ScorePanel from "./ScorePanel";
+import TimerPanel from "./TimerPanel";
 
 type Props = {
   score: number;
@@ -38,14 +38,21 @@ export default function GameHUD({
 
       <View style={styles.topLeftPanel}>
         <Pressable style={styles.backButton} onPress={onBack}>
-          <Text style={styles.backButtonText}>←</Text>
+          <Image
+            source={require("../assets/back.png")}
+            style={styles.backButtonIcon}
+            resizeMode="contain"
+          />
         </Pressable>
       </View>
 
       {playing && (
         <View style={styles.topRightPanel}>
           <Pressable style={styles.pauseButton} onPress={onPause}>
-            <Text style={styles.pauseButtonText}>Pauză</Text>
+            <Image
+              source={require("../assets/pause.png")}
+              style={styles.pauseButtonIcon}
+            />
           </Pressable>
         </View>
       )}
@@ -55,39 +62,31 @@ export default function GameHUD({
 
 const styles = StyleSheet.create({
   topLeftPanel: {
-    position: 'absolute',
+    position: "absolute",
     left: 12,
-    top: 70,
+    top: 60,
     zIndex: 1150,
   },
   backButton: {
-    backgroundColor: 'rgba(0,0,0,0.55)',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: 63,
+    height: 63,
   },
-  backButtonText: {
-    color: '#fff',
-    fontWeight: '700',
-    fontSize: 20,
+  backButtonIcon: {
+    width: "100%",
+    height: "100%",
   },
   topRightPanel: {
-    position: 'absolute',
+    position: "absolute",
     right: 12,
     top: 70,
     zIndex: 50,
   },
   pauseButton: {
-    backgroundColor: 'rgba(0,0,0,0.55)',
-    paddingHorizontal: 14,
-    paddingVertical: 10,
+    backgroundColor: "rgba(0,0,0,0.55)",
     borderRadius: 999,
   },
-  pauseButtonText: {
-    color: '#fff',
-    fontWeight: '700',
-    fontSize: 13,
+  pauseButtonIcon: {
+    width: 50,
+    height: 50,
   },
 });

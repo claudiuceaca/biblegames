@@ -1,16 +1,19 @@
-import { memo } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { memo } from "react";
+import { ImageBackground, StyleSheet, Text } from "react-native";
 
 type Props = { timeLeft: number };
 
 function TimerPanel({ timeLeft }: Props) {
   return (
-    <View style={styles.container}>
-      <View style={styles.timerRow}>
-        <Text style={styles.timerIcon}>⏱</Text>
-        <Text style={styles.timerText}>{Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2,'0')}</Text>
-      </View>
-    </View>
+    <ImageBackground
+      style={styles.container}
+      source={require("../assets/bannerTimp.png")}
+      resizeMode="contain"
+    >
+      <Text style={styles.timerText}>
+        {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, "0")}
+      </Text>
+    </ImageBackground>
   );
 }
 
@@ -18,28 +21,29 @@ export default memo(TimerPanel);
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    top: 12,
-    left: '38%',
-    backgroundColor: 'rgba(0,0,0,0.45)',
+    position: "absolute",
+    top: 4,
+    left: "34%",
     paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 12,
-    alignItems: 'center',
+    alignItems: "center",
     zIndex: 50,
+    width: 120,
+    height: 60,
   },
   timerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   timerIcon: {
     fontSize: 25,
     marginRight: 8,
-    color: '#fff',
+    color: "#fff",
   },
   timerText: {
-    color: '#fff',
-    fontWeight: '900',
+    color: "#fff",
+    fontWeight: "900",
     fontSize: 18,
+    marginTop: 18,
+    marginLeft: 25,
   },
 });

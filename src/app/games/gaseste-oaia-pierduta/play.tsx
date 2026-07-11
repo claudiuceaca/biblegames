@@ -3,12 +3,13 @@ import { useState } from "react";
 import { Image, Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
 
 import { router } from "expo-router";
-import GameHUD from "./GameHud";
-import { levels } from "./levels";
-import LevelSelectOverlay from "./LevelSelectOverlay";
-import PauseOverlay from "./PauseOverlay";
-import StartOverlayOaie from "./StartOverlayOaie";
-import WinOverlay from "./WinOverlay";
+import { levels } from "@/components/games/GasesteOaia/levels";
+import GameHUD from "./_components/GameHud";
+import StartOverlayOaie from "./_components/StartOverlayOaie";
+import PauseOverlay from "./_components/PauseOverlay";
+import WinOverlay from "./_components/WinOverlay";
+import LevelSelectOverlay from "./_components/LevelSelectOverlay";
+
 
 type OverlayType = "start" | "pause" | "win" | "levels" | null;
 

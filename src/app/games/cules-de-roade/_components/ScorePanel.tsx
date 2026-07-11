@@ -1,11 +1,14 @@
 import { memo } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
 
 type Props = { score: number };
 
 function ScorePanel({ score }: Props) {
   return (
-    <View style={styles.container}>
+     <ImageBackground 
+        style={styles.container} 
+        source={require('../assets/bannerSimple.png')} 
+        resizeMode="contain"> 
       <View style={styles.scoreRow}>
         <Image source={require('../assets/Stea.png')} style={styles.scoreIcon} />
         <View style={{ marginLeft: 8 }}>
@@ -13,7 +16,7 @@ function ScorePanel({ score }: Props) {
           <Text style={styles.panelTitleSmall}>PUNCTE</Text>
         </View>
       </View>
-    </View>
+    </ImageBackground>
   );
 }
 
@@ -22,14 +25,14 @@ export default memo(ScorePanel);
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    left: 12,
-    top: 12,
-    backgroundColor: 'rgba(0,0,0,0.45)',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 12,
+    left: 4,
+    top: 4,
+    paddingLeft: 25,
+    paddingVertical: 15,
     alignItems: 'flex-start',
-    zIndex: 50,
+    zIndex: 150,
+    height: 60,
+    width: 140,
   },
   scoreRow: {
     flexDirection: 'row',
