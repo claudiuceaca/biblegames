@@ -4,7 +4,7 @@
     "slug": "BibleGames",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/android-icon.png",
     "scheme": "biblegames",
     "userInterfaceStyle": "automatic",
     "ios": {
@@ -13,9 +13,9 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "foregroundImage": "./assets/images/android-icon.png",
+        "backgroundImage": "./assets/images/android-icon.png",
+        "monochromeImage": "./assets/images/android-icon.png"
       },
       "predictiveBackGestureEnabled": false,
       "package": "com.biblegames",
@@ -31,7 +31,7 @@
         "expo-splash-screen",
         {
           "backgroundColor": "#208AEF",
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/android-icon.png",
           "imageWidth": 76
         }
       ],
@@ -45,6 +45,9 @@
     "extra": {
       "router": {
         "origin": false
+      },
+      "eas": {
+        "projectId": "c671210c-8a5c-4f21-918e-ce94653e30b8"
       }
     },
     "eas": {

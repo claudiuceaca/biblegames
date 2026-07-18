@@ -61,7 +61,7 @@ export default function HomeScreen() {
             <TouchableOpacity
               style={styles.imageButton}
               // MODIFICAT: Calea completă către folderul jocului respectiv
-              onPress={() => router.push("/games/cules-de-roade")}
+              onPress={() => router.push("/games/porumbeii-pacii")}
               activeOpacity={0.8}
             >
               <Image
